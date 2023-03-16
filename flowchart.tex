@@ -1,0 +1,123 @@
+\documentclass[border=20pt]{standalone} 
+
+\usepackage{verbatim}
+\usepackage[pdfusetitle]{hyperref}
+
+\begin{comment}
+
+\end{comment}
+\usepackage[a4paper,vmargin=3cm]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{matrix,calc,shapes}
+\tikzset{
+  treenode/.style = {shape=rectangle, rounded corners,
+                     draw, anchor=center,
+                     text width=5em, align=center,
+                     top color=white, bottom color=orange!40,
+                     inner sep=1ex, text width=7em},
+  decision/.style = {treenode, diamond, inner sep=0pt, bottom color=blue!20},
+  root/.style     = {treenode, font=\Large, bottom color=red!30, text width=10em},
+  env/.style      = {treenode, font=\ttfamily\normalsize},
+  finish/.style   = {root, bottom color=green!40, text width=10em},
+  dummy/.style    = {circle,draw}
+}
+\newcommand{\yes}{edge node [left] {yes}}
+\newcommand{\hyes}{edge node [above] {yes}}
+\newcommand{\no}{edge node [above]  {no}}
+\newcommand{\vno}{edge node [left]  {no}}
+
+\title{Climate goal evaluation flowchart}
+\author{Amanda D. Smith}
+\date{2023}
+
+\begin{document}
+
+\begin{tikzpicture}[-latex]
+  \matrix (chart)
+    [
+      matrix of nodes,
+      nodes in empty cells,
+      column sep      = 3em,
+      row sep         = 5ex,
+      % column 1/.style = {nodes={decision}},
+      % column 2/.style = {nodes={env}}
+    ]
+    { 
+      & |[root]| Potential climate goal &  & {\begin{table}[]
+\begin{tabular}{l}
+Created by Amanda D. Smith     \\
+\copyright \hspace{0.5pt} Project Drawdown 2023 \\
+\footnotesize{LICENSE: \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}}
+\end{tabular}
+\end{table}}  \\
+      
+      & |[decision]| System defined? & |[treenode]| Specify system boundary. & \\
+      
+      & |[decision]| Scope of emissions defined? & |[treenode]| Specify scope of emissions. & \\
+      
+      & |[decision]| Substance defined? & |[treenode]| Specify substance. & \\
+      
+      & |[decision]| Is it $CO_2eq$ ?  & |[decision]| Time horizon provided for $eq$ calculations?   & |[treenode]| Specify time horizon. \\
+      
+      & |[decision]| Net zero or emissions reduction target? & & \\
+      
+      & & |[decision]| Percentage or quantity provided? & |[treenode]| Specify percentage or quantity of substance to be reduced.\\ |[decision]| Time resolution provided? & |[treenode]| Specify annual or other basis. & |[decision]| Baseline provided? & |[treenode]| Specify baseline from which reduction is to occur. \\
+      
+      && |[finish]| You have a climate goal. Onward! & \\
+    };
+
+% START/END
+\draw[->] (chart-1-2) -- (chart-2-2);
+
+% NO
+% horiz
+\foreach \row in {2,3,4}
+    \draw (chart-\row-2) \no (chart-\row-3);
+\draw (chart-5-3) \no (chart-5-4);
+\draw (chart-7-3) \no (chart-7-4);
+\draw (chart-8-1) \no (chart-8-2);
+\draw (chart-8-3) \no (chart-8-4);
+% vert
+\draw[->] (chart-5-2) \vno (chart-6-2);
+
+% YES
+% vert
+\foreach \x/\y in {2/3, 3/4, 4/5}
+    \draw (chart-\x-2) \yes (chart-\y-2);
+\foreach \x/\y in {7/8, 8/9}
+    \draw (chart-\x-3) \yes (chart-\y-3);
+% horiz
+\draw (chart-5-2) \hyes (chart-5-3);
+% angular
+\draw[->] (chart-5-3) |- (chart-6-2) 
+    node[near start,left] {yes};
+\draw[->] (chart-8-1) |- (chart-9-3) 
+    node[near start,left] {yes};
+
+% OTHER
+
+\draw[->] (chart-6-2) -| (chart-8-1) 
+    node[near start,above] {net zero};
+\draw[->] (chart-6-2) |- (chart-7-3) 
+    node[near start,right] {reduction};
+      
+ %  \draw
+ %    (chart-1-1) edge (chart-2-1)
+ %    \foreach \x/\y in {2/3, 3/4, 4/5, 5/6} {
+ %      (chart-\x-1) \no (chart-\y-1) }
+ %    \foreach \x in {2,...,6} {
+ %       (chart-\x-1) \yes (chart-\x-2) }
+ %   (chart-7-3) \no  (chart-8-3)
+ %   (chart-8-3) edge (chart-8-4);
+ % \draw
+ %   (chart-6-1) -- +(-2,0) |- (chart-1-1)
+ %     node[near start,sloped,above] {no, reconsider};
+ %  \foreach \x in {2,...,6} {
+ %   \draw (chart-\x-2) -| (chart-7-3);}
+ % \draw   (chart-7-3)  -| (chart-8-4)
+ %   node[near start,above] {yes}; 
+\end{tikzpicture}
+
+\end{document}
+
+
