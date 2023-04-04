@@ -2,10 +2,6 @@
 
 \usepackage{verbatim}
 \usepackage[pdfusetitle]{hyperref}
-
-\begin{comment}
-
-\end{comment}
 \usepackage[a4paper,vmargin=3cm]{geometry}
 \usepackage{tikz}
 \usetikzlibrary{matrix,calc,shapes}
@@ -39,8 +35,6 @@
       nodes in empty cells,
       column sep      = 3em,
       row sep         = 5ex,
-      % column 1/.style = {nodes={decision}},
-      % column 2/.style = {nodes={env}}
     ]
     { 
       & |[root]| Potential climate goal &  & {\begin{table}[]
@@ -62,7 +56,7 @@ Created by Amanda D. Smith     \\
       & |[decision]| Net zero or emissions reduction target? & & \\
       
       & & |[decision]| Percentage or quantity provided? & |[treenode]| Specify percentage or quantity of substance to be reduced.\\ |[decision]| Time resolution provided? & |[treenode]| Specify annual or other basis. & |[decision]| Baseline provided? & |[treenode]| Specify baseline from which reduction is to occur. \\
-      
+      & & |[decision]| Deadline provided? & |[treenode]| Specify deadline for hitting target. \\
       && |[finish]| You have a climate goal. Onward! & \\
     };
 
@@ -77,6 +71,7 @@ Created by Amanda D. Smith     \\
 \draw (chart-7-3) \no (chart-7-4);
 \draw (chart-8-1) \no (chart-8-2);
 \draw (chart-8-3) \no (chart-8-4);
+\draw (chart-9-3) \no (chart-9-4);
 % vert
 \draw[->] (chart-5-2) \vno (chart-6-2);
 
@@ -84,7 +79,7 @@ Created by Amanda D. Smith     \\
 % vert
 \foreach \x/\y in {2/3, 3/4, 4/5}
     \draw (chart-\x-2) \yes (chart-\y-2);
-\foreach \x/\y in {7/8, 8/9}
+\foreach \x/\y in {7/8, 8/9, 9/10}
     \draw (chart-\x-3) \yes (chart-\y-3);
 % horiz
 \draw (chart-5-2) \hyes (chart-5-3);
@@ -95,27 +90,11 @@ Created by Amanda D. Smith     \\
     node[near start,left] {yes};
 
 % OTHER
-
 \draw[->] (chart-6-2) -| (chart-8-1) 
     node[near start,above] {net zero};
 \draw[->] (chart-6-2) |- (chart-7-3) 
     node[near start,right] {reduction};
-      
- %  \draw
- %    (chart-1-1) edge (chart-2-1)
- %    \foreach \x/\y in {2/3, 3/4, 4/5, 5/6} {
- %      (chart-\x-1) \no (chart-\y-1) }
- %    \foreach \x in {2,...,6} {
- %       (chart-\x-1) \yes (chart-\x-2) }
- %   (chart-7-3) \no  (chart-8-3)
- %   (chart-8-3) edge (chart-8-4);
- % \draw
- %   (chart-6-1) -- +(-2,0) |- (chart-1-1)
- %     node[near start,sloped,above] {no, reconsider};
- %  \foreach \x in {2,...,6} {
- %   \draw (chart-\x-2) -| (chart-7-3);}
- % \draw   (chart-7-3)  -| (chart-8-4)
- %   node[near start,above] {yes}; 
+
 \end{tikzpicture}
 
 \end{document}
